@@ -16,4 +16,6 @@ services:
       FLASK_APP: "bin/app.py"
       FLASK_RUN_HOST: 0.0.0.0
       FLASK_RUN_PORT: 8002
+      CHEATSH_CACHE_REDIS_HOST: redis
+      CHEATSH_PATH_INTERNAL_BIN_UPSTREAM_RUNNER: /app/.venv/bin/python
     command: ["/app/.venv/bin/flask", "run"]

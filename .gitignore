@@ -7,3 +7,4 @@ share/vim/.viminfo
 typescript
 venv/
 upstream/
+docker-compose.override.yml
