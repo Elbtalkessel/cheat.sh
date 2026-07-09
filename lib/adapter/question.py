@@ -8,6 +8,7 @@ Configuration parameters:
 
 from __future__ import print_function
 
+import logging
 import os
 import re
 from subprocess import Popen, PIPE
@@ -18,6 +19,10 @@ from polyglot.detect.base import UnknownLanguage
 from config import CONFIG
 from languages_data import SO_NAME
 from .upstream import UpstreamAdapter
+
+
+logger = logging.getLogger(__name__)
+
 
 NOT_FOUND_MESSAGE = """404 NOT FOUND
 
@@ -111,7 +116,9 @@ class Question(UpstreamAdapter):
                 lang = supposed_lang
 
         except UnknownLanguage:
-            print("Unknown language (%s)" % query_text)
+            logger.error("Unknown language (%s)" % query_text)
+        except TypeError:
+            logger.exception("adapter=%s", self._adapter_name)
 
         if lang != "en":
             topic = ["--human-language", lang, topic]
