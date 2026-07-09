@@ -11,9 +11,13 @@ Configuration parameters:
 
 import textwrap
 import requests
+from logging import getLogger
 
 from config import CONFIG
 from .adapter import Adapter
+
+
+logger = getLogger(__name__)
 
 
 def _are_you_offline():
@@ -68,6 +72,7 @@ class UpstreamAdapter(Adapter):
             response = requests.get(url, timeout=CONFIG["upstream.timeout"])
             answer = {"cache": False, "answer": response.text}
         except requests.exceptions.ConnectionError:
+            logger.exception("adapter=%s", self._adapter_name)
             answer = {"cache": False, "answer": _are_you_offline()}
         return answer
 

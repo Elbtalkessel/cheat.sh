@@ -5,8 +5,12 @@
 import os.path
 import re
 from subprocess import Popen, PIPE
+import logging
 
 from .adapter import Adapter
+
+
+logger = logging.getLogger(__name__)
 
 
 def _get_abspath(path):
@@ -37,6 +41,7 @@ class CommandAdapter(Adapter):
                 proc = Popen(cmd, stdout=PIPE, stderr=PIPE)
                 answer = proc.communicate()[0].decode("utf-8", "ignore")
             except OSError:
+                logger.exception("adapter=%s", self._adapter_name)
                 return (
                     'ERROR of the "%s" adapter: please create an issue'
                     % self._adapter_name
