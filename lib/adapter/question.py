@@ -130,7 +130,7 @@ class Question(UpstreamAdapter):
         answer = proc.communicate()[0].decode("utf-8")
 
         if not answer:
-            return NOT_FOUND_MESSAGE
+            return {"answer": NOT_FOUND_MESSAGE, "cache": False}
 
         return answer
 
