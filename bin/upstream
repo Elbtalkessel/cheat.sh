@@ -36,6 +36,7 @@ import os
 import tempfile
 import json
 import pathlib
+import argparse
 
 import feedparser
 import requests
@@ -337,9 +338,14 @@ def main(q: str) -> typing.Generator[str]:
 
 
 if __name__ == "__main__":
-    args = sys.argv[1:]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--human-language", default="en")
+    parser.add_argument(
+        "topic", help="Topic in format <lang>/<question> [...additionl detail]"
+    )
+    args = parser.parse_args()
     try:
-        for line in main("".join(args)):
+        for line in main(args.topic):
             sys.stdout.write(line + "\n")
     except Exception as e:
         sys.stderr.write(str(e) + "\n")
