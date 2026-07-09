@@ -125,10 +125,17 @@ class Question(UpstreamAdapter):
         else:
             topic = [topic]
 
-        cmd = [CONFIG["path.internal.bin.upstream"]] + topic
+        cmd = []
+        if runner := CONFIG["path.internal.bin.upstream_runner"]:
+            cmd = [runner]
+        cmd.append(CONFIG["path.internal.bin.upstream"])
+        cmd.extend(topic)
         proc = Popen(cmd, stdin=open(os.devnull, "r"), stdout=PIPE, stderr=PIPE)
-        answer = proc.communicate()[0].decode("utf-8")
 
+        stdout, stderr = proc.communicate()
+        if stderr:
+            logger.error("cannot execute upstream script: %s", stderr.decode("utf-8"))
+        answer = stdout.decode("utf-8")
         if not answer:
             return {"answer": NOT_FOUND_MESSAGE, "cache": False}
 

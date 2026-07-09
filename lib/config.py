@@ -111,6 +111,7 @@ _CONFIG = {
     "path.internal.ansi2html": os.path.join(_MYDIR, "share/ansi2html.sh"),
     "path.internal.bin": os.path.join(_MYDIR, "bin"),
     "path.internal.bin.upstream": os.path.join(_MYDIR, "bin", "upstream"),
+    "path.internal.bin.upstream_runner": "",
     "path.internal.malformed": os.path.join(
         _MYDIR, "share/static/malformed-response.html"
     ),
@@ -171,7 +172,7 @@ class Config(dict):
         self.update(*args, **kwargs)
 
     def __setitem__(self, key, val):
-        if key.startswith("path.") and not val.startswith("/"):
+        if val and key.startswith("path.") and not val.startswith("/"):
             val = self._absolute_path(val)
         dict.__setitem__(self, key, val)
 

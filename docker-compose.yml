@@ -8,6 +8,7 @@ services:
       - redis
     environment:
       - CHEATSH_CACHE_REDIS_HOST=redis
+      - CHEATSH_PATH_INTERNAL_BIN_UPSTREAM_RUNNER=/app/.venv/bin/python
     ports:
       - "8002:8002"
     volumes:
